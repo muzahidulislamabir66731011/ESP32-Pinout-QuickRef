@@ -2,7 +2,7 @@
 #define ECHO_PIN 18
 #define BUZZER_PIN 23
 
-int prevDistance = 0;  // stores last distance reading
+int prevDistance = 0;  
 
 void setup() {
   Serial.begin(115200);
@@ -12,32 +12,28 @@ void setup() {
 }
 
 void loop() {
-  // --- Trigger pulse ---
   digitalWrite(TRIG_PIN, LOW);
   delayMicroseconds(2);
   digitalWrite(TRIG_PIN, HIGH);
   delayMicroseconds(10);
   digitalWrite(TRIG_PIN, LOW);
 
-  // --- Measure echo ---
   long duration = pulseIn(ECHO_PIN, HIGH);
-  int distance = duration * 0.034 / 2;  // cm
+  int distance = duration * 0.034 / 2;  
 
-  // --- Print reading ---
   Serial.print("Distance: ");
   Serial.print(distance);
   Serial.println(" cm");
 
-  // --- Compare with previous reading ---
-  if (prevDistance > 0) {  // skip first loop
+  if (prevDistance > 0) { 
     if (distance != prevDistance) {
-      digitalWrite(BUZZER_PIN, HIGH);  // object is getting closer
+      digitalWrite(BUZZER_PIN, HIGH);  
     } else {
-      digitalWrite(BUZZER_PIN, LOW);   // object is going away or steady
+      digitalWrite(BUZZER_PIN, LOW);  
     }
   }
 
-  prevDistance = distance;  // update for next loop
+  prevDistance = distance;  
   delay(200);
 }
 
